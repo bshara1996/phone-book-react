@@ -1,57 +1,70 @@
 .navbar {
-  background: linear-gradient(to right, var(--clr-blue-9), var(--clr-blue-10));
-  padding: 1.8rem;
-  box-shadow: var(--light-shadow);
-  border-radius: var(--radius);
-  margin-bottom: 2rem;
+  border: 1px solid #0077cc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
-  gap: 4rem;
-  justify-content: center;
+  gap: 2.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  display: flex;
   align-items: center;
-  flex-wrap: wrap;
 }
-
 .navbar a {
-  color: var(--clr-blue-2);
   text-decoration: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  transition: var(--transition);
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 600;
-  letter-spacing: var(--spacing);
-  position: relative;
-  display: inline-block;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
-.navbar a:hover {
-  background-color: var(--clr-blue-2);
-  color: var(--clr-white);
-  transform: translateY(-2px);
-  box-shadow: var(--light-shadow);
+.navLink {
+  color: rgb(12, 12, 12);
 }
 
+.navLink.active,
 .active {
-  background-color: var(--clr-blue-2) !important;
-  color: var(--clr-white) !important;
-  font-weight: bold;
-  box-shadow: var(--light-shadow);
+  color: #0077cc;
 }
 
-/* Add responsive design */
-@media screen and (max-width: 600px) {
-  .navbar ul {
-    gap: 2rem;
-  }
-  
-  .navbar a {
-    font-size: 1.8rem;
-    padding: 0.8rem 1.5rem;
-  }
+.navLink.active::after,
+.active::after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  margin-top: 0.2em;
+  width: 60%;
+  height: 4px;
+  border-radius: 3px;
+  background: #0077cc;
+  position: relative;
+}
+
+.navLink:hover {
+  color: #0077cc;
+  transform: translateY(-2px);
+}
+
+/* Style for logout button (last child in the navigation list) */
+.navbar li:last-child a {
+  background: transparent;
+  color: #0077cc;
+  font-size: 1.4rem;
+  border: 2px solid #0077cc;
+  border-radius: 0.5em;
+  padding: 0.4em 1.3em;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.navbar li:last-child a:hover {
+  background: #e0e7ff;
+  color: #0077cc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 119, 204, 0.2);
 }

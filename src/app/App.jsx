@@ -1,4 +1,3 @@
-// we can change component name using as. below BrowserRouter name is changed to Router
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,10 +6,11 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 
-import Home from "../pages/Home/Home";
-import About from "../pages/About/About";
-import NotFound from "../pages/NotFound/NotFound";
 import Login from "../pages/Login/Login";
+import Home from "../pages/Home/Home";
+import Contacts from "../pages/Contacts/Contacts";
+import NotFound from "../pages/NotFound/NotFound";
+
 import classes from "./app.module.css";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
@@ -38,9 +38,9 @@ export default function App() {
 
           {/* good solution */}
           <Route
-            path="/about"
+            path="/contacts"
             element={
-              isLoggedIn ? <About onLogout={setIsLogin} /> : <Navigate to="/" />
+              isLoggedIn ? <Contacts onLogout={setIsLogin} /> : <Navigate to="/" />
             }
           />
 

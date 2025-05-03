@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import NavBar from "../../components/navbar/NavBar";
-import classes from "../page.module.css";
+import Card from "../../components/card/Card";
+import { cards } from "../../app/data/cards";
+
+import classes from "./home.module.css";
+
+import pageClasses from "../page.module.css";
 
 /**
  * Home page component
@@ -12,19 +17,30 @@ import classes from "../page.module.css";
  */
 export default function Home({ onLogout }) {
   return (
-    <div className={classes.page}>
+    <div className={pageClasses.page}>
       {/* Navigation bar component */}
       <NavBar onLogout={onLogout} />
-      <h2>Home</h2>
-      <main>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis,
-          impedit.
-        </p>
-        <p>
-          Go to
-          <Link to="/about">About</Link>
-        </p>
+
+      <main className={classes.main}>
+        <div className={classes.welcomeSection}>
+          <h1>Welcome to Phone Book</h1>
+          <p>
+            Manage your contacts efficiently with our modern and intuitive
+            contact management system
+          </p>
+        </div>
+
+        <div className={classes.cardsContainer}>
+          {cards.map((card, index) => (
+            <div className={classes.cardWrapper} key={index}>
+              <Card
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+              />
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   );
