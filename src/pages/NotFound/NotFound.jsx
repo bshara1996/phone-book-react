@@ -10,7 +10,7 @@ export default function NotFound() {
         Sorry, the page you are looking for does not exist.
       </p>
       <p>
-        Go to <Link to="/home">Login Page</Link>
+        Go to <Link to="/">Login Page</Link>
       </p>
     </div>
   );

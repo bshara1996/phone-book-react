@@ -1,0 +1,38 @@
+.viewToggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+  min-width: 120px;
+}
+
+.viewToggleButton:hover {
+  background-color: #e9ecef;
+}
+
+.active {
+  background-color: #4a6da7;
+  color: white;
+  border-color: #4a6da7;
+}
+
+.active:hover {
+  background-color: #3b5998;
+  border-color: #3b5998;
+}
+
+@media (max-width: 576px) {
+  .viewToggleButton {
+    padding: 6px 10px;
+    min-width: auto;
+    font-size: 0.8rem;
+  }
+}

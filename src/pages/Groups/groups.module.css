@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+}
+
+@media screen and (max-width: 992px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+  }
+}

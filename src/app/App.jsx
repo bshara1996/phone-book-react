@@ -1,48 +1,49 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import Login from "../pages/Login/Login";
 import Home from "../pages/Home/Home";
 import Contacts from "../pages/Contacts/Contacts";
+import Groups from "../pages/Groups/Groups";
 import NotFound from "../pages/NotFound/NotFound";
+import Layout from "./Layout";
 
 import classes from "./app.module.css";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
+import { users } from "./data/users";
+
+// Import contacts service for initialization
+import * as contactsService from "../utils/contactsService";
 
 export default function App() {
-  const [isLoggedIn, setIsLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Initialize contacts service when app loads
+  useEffect(() => {
+    // Pre-load contacts data
+    contactsService.initializeContacts();
+  }, []);
+
+  const handleLogin = (userData) => {
+    setIsLoggedIn(true);
+    setUser(userData);
+  };
 
   return (
     <section className={classes.app}>
       <Header />
       <Router>
         <Routes>
-          <Route path="/" element={<Login onLogin={setIsLogin} />} />
-          {/* bad solution because active link in case not loggedin is Home amd not Login */}
-          <Route
-            path="/home"
-            element={
-              isLoggedIn ? (
-                <Home onLogout={setIsLogin} />
-              ) : (
-                <Login onLogin={setIsLogin} />
-              )
-            }
-          />
-
-          {/* good solution */}
-          <Route
-            path="/contacts"
-            element={
-              isLoggedIn ? <Contacts onLogout={setIsLogin} /> : <Navigate to="/" />
-            }
-          />
+          {/* Login route */}
+          <Route path="/" element={<Login onLogin={handleLogin} />} />
+          {/* Protected routes using Layout component */}
+          <Route element={<Layout isLoggedIn={isLoggedIn} />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/contacts" element={<Contacts user={user} />} />
+            <Route path="/groups" element={<Groups user={user} />} />
+          </Route>
 
           {/* if nothing was found, show NotFound */}
           <Route path="*" element={<NotFound />} />

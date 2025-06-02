@@ -4,7 +4,6 @@
 }
 
 .page main {
-  background: lightblue;
   flex: 1;
   width: min(80%, 1000px);
   margin: auto;
@@ -25,13 +24,12 @@
 }
 
 .page button {
-
   cursor: pointer;
   display: block;
 }
 
 .page ol {
-  list-style-type: decimal; 
+  list-style-type: decimal;
   font-size: 1.6rem;
 }
 

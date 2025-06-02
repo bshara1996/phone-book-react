@@ -1,25 +1,16 @@
-
-import NavBar from "../../components/navbar/NavBar";
 import classes from "../page.module.css";
+import ContactsList from "../../components/ContactsList/ContactsList";
 
 /**
- * About page component
- * @param {Function} onLogout - function to call when logout is clicked
- * @returns {JSX.Element} - about page component
+ * Contacts page component
+ * @returns {JSX.Element} - contacts page component
  */
-export default function About({ onLogout }) {
+export default function Contacts({ user }) {
   return (
     <div className={classes.page}>
-      {/* Navigation bar component */}
-      <NavBar onLogout={onLogout} />
       <h2>Contacts</h2>
       <main>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          sapiente voluptate temporibus error commodi, porro blanditiis facilis
-          autem! Officia ducimus modi beatae ipsum nulla tempore laborum quis
-          debitis quisquam fuga?
-        </p>
+        <ContactsList user={user} />
       </main>
     </div>
   );

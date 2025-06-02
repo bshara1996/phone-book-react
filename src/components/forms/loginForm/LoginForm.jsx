@@ -1,8 +1,6 @@
 import classes from "./form.module.css";
-
 import { useState } from "react";
 import { users } from "../../../app/data/users";
-
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 /**
@@ -14,91 +12,83 @@ import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
  * @returns {JSX.Element} - Rendered login form
  */
 export default function Form({ onLoginSuccess }) {
-  // State for form input values
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    confirm: "",
   });
-
-  // State for error message display
   const [error, setError] = useState("");
-
-  // State to toggle password visibility
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  // Toggles password field between visible text and hidden characters
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const usernamePattern = /^[a-zA-Z0-9_]{3,}$/;
+  const passwordPattern = /^.{1,}$/;
 
-  /**
-   * Handles form submission
-   * Validates user credentials against the users data
-   * Calls onLoginSuccess callback if authentication succeeds
-   * Displays error message if authentication fails
-   *
-   * @param {Event} e - Form submit event
-   */
-  function handleSubmit(e) {
-    e.preventDefault();
-    setError(""); // Clear any existing error messages
+  const togglePasswordVisibility = () => setShowPassword((v) => !v);
+  const toggleConfirmVisibility = () => setShowConfirm((v) => !v);
 
-    // Validate against user data from users.js
-    const user = users.find(
-      (user) =>
-        user.username === formData.username &&
-        user.password === formData.password
-    );
-
-    if (user) {
-      // Call success handler with the found user
-      onLoginSuccess({ username: user.username, name: user.name });
-    } else {
-      // Show error message
-      setError("Invalid username or password");
-    }
-  }
-
-  /**
-   * Handles input field changes
-   * Updates form state and clears error messages when user types
-   *
-   * @param {Event} e - Input change event
-   */
   function handleInput(e) {
-    // Clear error message when user types
-    if (error) {
-      setError("");
-    }
-
-    // Update form data using the input name as key
+    if (error) setError("");
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   }
 
+  function validate() {
+    if (!usernamePattern.test(formData.username))
+      return "Invalid username (min 3 chars, letters/numbers/underscore)";
+    if (!passwordPattern.test(formData.password))
+      return "Password must have at least one character";
+    if (formData.password !== formData.confirm) return "Passwords do not match";
+    return "";
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    const err = validate();
+    if (err) {
+      setError(err);
+      return;
+    }
+    const user = users.find(
+      (user) =>
+        user.username === formData.username &&
+        user.password === formData.password
+    );
+    if (user) {
+      onLoginSuccess({
+        username: user.username,
+        name: user.name,
+        type: user.type,
+        role: user.role,
+      });
+    } else {
+      setError("Invalid username or password");
+    }
+  }
+
   return (
     <div>
-      {/* Form title */}
       <h2 className={classes.loginTitle}>Login</h2>
-
-      {/* Conditional error message display */}
       {error && <p className={classes.errorMessage}>{error}</p>}
-
-      {/* Login form */}
       <form onSubmit={handleSubmit} className={classes.form}>
-        {/* Username input field */}
-        <input
-          type="text"
-          placeholder="Username"
-          required
-          onChange={handleInput}
-          name="username"
-          value={formData.username}
-        />
-
-        {/* Password input container with toggle visibility button */}
+        <div className={classes.formGroup}>
+          <input
+            type="text"
+            placeholder="Username"
+            required
+            onChange={handleInput}
+            name="username"
+            value={formData.username}
+            id="username"
+            pattern={usernamePattern.source}
+          />
+          <label htmlFor="username" className={classes.floatingLabel}>
+            Username
+          </label>
+        </div>
         <div className={classes.passwordContainer}>
           <input
             name="password"
@@ -107,22 +97,48 @@ export default function Form({ onLoginSuccess }) {
             placeholder="Password"
             required
             value={formData.password}
+            id="password"
+            pattern={passwordPattern.source}
           />
 
-          {/* Toggle password visibility button */}
           <button
             type="button"
             onClick={togglePasswordVisibility}
             className={classes.passwordToggle}
+            tabIndex={-1}
           >
-            {/* Show different icon based on password visibility state */}
             {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
           </button>
+          <label htmlFor="password" className={classes.floatingLabel}>
+            Password
+          </label>
         </div>
+        <div className={classes.passwordContainer}>
+          <input
+            name="confirm"
+            onChange={handleInput}
+            type={showConfirm ? "text" : "password"}
+            placeholder="Confirm Password"
+            required
+            value={formData.confirm}
+            id="confirm"
+            pattern={passwordPattern.source}
+          />
 
-        {/* Submit button */}
+          <button
+            type="button"
+            onClick={toggleConfirmVisibility}
+            className={classes.passwordToggle}
+            tabIndex={-1}
+          >
+            {showConfirm ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+          </button>
+          <label htmlFor="confirm" className={classes.floatingLabel}>
+            Confirm Password
+          </label>
+        </div>
         <button className={classes.passwordBtn} type="submit">
-          Login
+          Submit
         </button>
       </form>
     </div>

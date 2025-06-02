@@ -1,0 +1,41 @@
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+  min-width: 100px;
+}
+
+.sortButton:hover {
+  background-color: #e9ecef;
+}
+
+.sortButton.active {
+  background-color: #e7f5ff;
+  border-color: #4dabf7;
+  color: #1971c2;
+  font-weight: 500;
+}
+
+@media (max-width: 576px) {
+  .sortButton {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .sortButton span {
+    display: none;
+  }
+  
+  .sortButton svg {
+    font-size: 0.9rem;
+  }
+}

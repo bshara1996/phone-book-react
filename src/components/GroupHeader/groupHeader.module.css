@@ -1,0 +1,120 @@
+.header {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.groupInfo {
+  flex: 1;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.colorIndicator {
+  width: 16px;
+  height: 32px;
+  border-radius: 4px;
+  margin-right: 16px;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1.2rem;
+  max-width: 600px;
+}
+
+.stats {
+  display: flex;
+  gap: 24px;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.statIcon {
+  color: #4a90e2;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.clearButton {
+  font-size: 1.1rem;
+}
+
+/* Group color indicators */
+.all {
+  background-color: #555;
+}
+
+.family {
+  background-color: #4CAF50;
+}
+
+.friends {
+  background-color: #FF9800;
+}
+
+.work {
+  background-color: #2196F3;
+}
+
+.school {
+  background-color: #9C27B0;
+}
+
+.gym {
+  background-color: #F44336;
+}
+
+.neighbors {
+  background-color: #795548;
+}
+
+.bookclub {
+  background-color: #607D8B;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+  }
+  
+  .actions {
+    width: 100%;
+  }
+  
+  .clearButton {
+    width: 100%;
+  }
+}

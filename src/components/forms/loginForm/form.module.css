@@ -13,12 +13,18 @@
   gap: 1.5rem;
 }
 
+.formGroup {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
 .form input {
   padding: 1rem;
   border: 1.5px solid #ccc;
   border-radius: 4px;
   font-size: 1.6rem;
   width: 100%;
+  transition: border-color 0.3s;
 }
 
 .form input:focus {
@@ -26,27 +32,56 @@
   border: 2px solid #0077cc;
 }
 
+.floatingLabel {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  padding: 0 0.25rem;
+  color: #777;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  font-size: 1.6rem;
+}
+
+.form input:focus ~ .floatingLabel,
+.form input:not(:placeholder-shown) ~ .floatingLabel {
+  top: 0;
+  font-size: 1.2rem;
+  color: #0077cc;
+  background-color: white;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.form input::placeholder {
+  color: transparent;
+}
+
 /* Password field styles */
 .passwordContainer {
   position: relative;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 /* Password toggle button - Eye Icon */
 .passwordToggle {
+  right: 0em;
   position: absolute;
-  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   cursor: pointer;
   color: #777;
-  font-size: 1.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 0.5em;  /* increased padding */
+  font-size: 1.8rem;  /* added font-size to make icon bigger */
 }
 
 .passwordToggle:hover {

@@ -1,0 +1,128 @@
+.container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.icon {
+  color: #4a90e2;
+}
+
+.groupList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.groupItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 1.2rem;
+}
+
+.groupItem:hover {
+  background-color: rgba(74, 144, 226, 0.1);
+}
+
+.selected {
+  background-color: rgba(74, 144, 226, 0.15);
+  font-weight: 600;
+}
+
+.groupColor {
+  width: 12px;
+  height: 24px;
+  border-radius: 3px;
+  margin-right: 12px;
+}
+
+.groupName {
+  flex: 1;
+}
+
+.groupCount {
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 1rem;
+  color: #555;
+  min-width: 35px;
+  text-align: center;
+}
+
+/* Group color indicators */
+.all {
+  background-color: #555;
+}
+
+.family {
+  background-color: #4CAF50;
+}
+
+.friends {
+  background-color: #FF9800;
+}
+
+.work {
+  background-color: #2196F3;
+}
+
+.school {
+  background-color: #9C27B0;
+}
+
+.gym {
+  background-color: #F44336;
+}
+
+.neighbors {
+  background-color: #795548;
+}
+
+.bookclub {
+  background-color: #607D8B;
+}
+
+.loading, .error {
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .groupItem {
+    padding: 10px 12px;
+    font-size: 1.1rem;
+  }
+}

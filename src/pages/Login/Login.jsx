@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import LoginForm from "../../components/forms/loginForm";
+import LoginForm from "../../components/forms/loginForm/LoginForm";
 import { users } from "../../app/data/users";
 
 import pageClasses from "../page.module.css";
@@ -15,8 +15,9 @@ export default function Login({ onLogin }) {
   const navigate = useNavigate();
 
   //Handles successful login
-  function handleLoginSuccess() {
-    onLogin(true);
+  function handleLoginSuccess(userData) {
+    // Store role information along with login state
+    onLogin({ ...userData, isAuthenticated: true });
     navigate("/home");
   }
 
@@ -34,8 +35,8 @@ export default function Login({ onLogin }) {
           {/* Map through available test users */}
           {users.map((account) => (
             <div className={classes.accountItem} key={crypto.randomUUID()}>
-              Username: <b>{account.username}</b> Password:{" "}
-              <b>{account.password}</b>
+              Username: <b>{account.username}</b> | Password:{" "}
+              <b>{account.password}</b> | Role: <b>{account.role}</b>
             </div>
           ))}
         </div>
