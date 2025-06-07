@@ -1,84 +1,46 @@
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import classes from "../page.module.css";
-import ContactsList from "../../components/ContactsList/ContactsList";
-import GroupsList from "../../components/GroupsList/GroupsList";
-import GroupHeader from "../../components/GroupHeader/GroupHeader";
-import * as api from "../../utils/api";
-
-import groupsClasses from "./groups.module.css";
+import { useState } from "react";
+import ContactsList from "../../components/contactsList/ContactsList";
+import GroupsList from "../../components/groupsList/GroupsList";
+import { usePhoneBook } from "../../context/PhoneBookContext";
+import pageClasses from "../page.module.css";
+import classes from "./groups.module.css";
 
 /**
  * Groups page component
- * @returns {JSX.Element} - Groups page component
+ * @param {Object} props Component props
+ * @param {Object} props.user Current user data
+ * @returns {JSX.Element} Groups page component
  */
 export default function Groups({ user }) {
-  const [selectedGroup, setSelectedGroup] = useState("All");
-  const [groupContactCount, setGroupContactCount] = useState(0);
-  
-  // Update contact count when selected group changes
-  useEffect(() => {
-    const contacts = api.getContacts();
-    let count;
-    
-    if (selectedGroup === "All") {
-      count = contacts.length;
-    } else {
-      count = contacts.filter(contact => 
-        contact.groups && contact.groups.includes(selectedGroup)
-      ).length;
-    }
-    
-    setGroupContactCount(count);
-  }, [selectedGroup]);
-  
-  // Handle clearing a group (removes the group from all contacts)
-  const handleClearGroup = () => {
-    if (selectedGroup === "All") return;
-    
-    const contacts = api.getContacts();
-    const updatedContacts = contacts.map(contact => {
-      if (contact.groups && contact.groups.includes(selectedGroup)) {
-        return {
-          ...contact,
-          groups: contact.groups.filter(g => g !== selectedGroup)
-        };
-      }
-      return contact;
-    });
-    
-    // Update each contact that had the group
-    updatedContacts.forEach(contact => {
-      if (JSON.stringify(contact) !== JSON.stringify(contacts.find(c => c.id === contact.id))) {
-        api.updateContact(contact.id, contact);
-      }
-    });
-    
-    // Reset to All group
-    setSelectedGroup("All");
+  const [selectedGroup, setSelectedGroup] = useState("all");
+  const { groups, deleteGroup, deleteContactsInGroup } = usePhoneBook();
+  const isAdmin = user?.role === "admin";
+
+  const handleDeleteGroup = (group) => {
+    deleteContactsInGroup(group);
+    deleteGroup(group);
   };
 
   return (
-    <div className={classes.page}>
+    <div className={pageClasses.page}>
       <main>
-        <div className={groupsClasses.container}>
-          <div className={groupsClasses.sidebar}>
-            <GroupsList 
-              onGroupSelect={setSelectedGroup} 
-              selectedGroup={selectedGroup} 
+        <div className={classes.header}>
+          <h2 className={classes.title}>Contact Groups</h2>
+        </div>
+        <div className={classes.container}>
+          <div className={classes.sidebar}>
+            <GroupsList
+              groups={groups}
+              selectedGroup={selectedGroup}
+              onSelectGroup={setSelectedGroup}
+              isAdmin={isAdmin}
+              onDeleteGroup={handleDeleteGroup}
             />
           </div>
-          
-          <div className={groupsClasses.content}>
-            <GroupHeader 
-              groupName={selectedGroup} 
-              contactCount={groupContactCount}
-              onClearGroup={handleClearGroup}
-            />
-            
-            <ContactsList 
-              user={user} 
-              activeGroup={selectedGroup !== "All" ? selectedGroup : null} 
+          <div className={classes.content}>
+            <ContactsList
+              isAdmin={isAdmin}
+              group={selectedGroup !== "all" ? selectedGroup : undefined}
             />
           </div>
         </div>
@@ -86,7 +48,3 @@ export default function Groups({ user }) {
     </div>
   );
 }
-
-Groups.propTypes = {
-  user: PropTypes.object
-};

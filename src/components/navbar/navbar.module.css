@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 0 1rem;
 }
 
 .navbar ul {
@@ -11,17 +12,21 @@
   gap: 2.5em;
   margin: 0;
   padding: 0;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .navbar li {
   display: flex;
   align-items: center;
 }
+
 .navbar a {
   text-decoration: none;
   font-size: 1.7rem;
   font-weight: 600;
   transition: color 0.3s ease, transform 0.2s ease;
+  padding: 0.5rem;
 }
 
 .navLink {
@@ -70,10 +75,39 @@
   box-shadow: 0 4px 8px rgba(0, 119, 204, 0.2);
 }
 
-/* Responsive navbar - wraps on small screens */
 @media screen and (max-width: 768px) {
   .navbar ul {
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 1.5em;
+  }
+
+  .navbar a {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbar {
+    margin-bottom: 1.5em;
+  }
+
+  .navbar ul {
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .navbar a {
+    font-size: 1.4rem;
+    padding: 0.4rem;
+  }
+
+  .navbar li:last-child {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .navbar li:last-child a {
+    width: 100%;
+    text-align: center;
+    display: block;
   }
 }

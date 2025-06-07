@@ -1,186 +1,185 @@
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import classes from './contactForm.module.css';
+import { useState, useEffect } from "react";
+import { usePhoneBook } from "../../../context/PhoneBookContext";
+import Button from "../../controls/button/Button";
+import classes from "./contactForm.module.css";
 
 /**
- * Contact form component for adding and editing contacts
- * @param {Object} props - Component props
- * @param {Object|null} props.contact - Contact to edit (null for new contact)
- * @param {Function} props.onSubmit - Function to call when form is submitted
- * @param {Function} props.onCancel - Function to call when form is cancelled
- * @param {Array} props.groups - Available groups for selection
- * @returns {JSX.Element} - Contact form component
+ * ContactForm component for adding/editing contacts
+ * @param {Object} props Component props
+ * @param {Object} props.contact Contact data for editing (optional)
+ * @param {Function} props.onSubmit Submit handler
+ * @param {Function} props.onCancel Cancel handler
+ * @returns {JSX.Element} ContactForm component
  */
-const ContactForm = ({ contact, onSubmit, onCancel, groups }) => {
-  // Form state
+const ContactForm = ({ contact, onSubmit, onCancel }) => {
+  const { groups } = usePhoneBook();
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
+    name: "",
+    phone: "",
+    email: "",
+    image: "",
     groups: [],
-    image: `https://i.pravatar.cc/200?img=${Math.floor(Math.random() * 70) + 1}`,
+    ...contact,
   });
-  
-  // Form validation errors
   const [errors, setErrors] = useState({});
-  
-  // Initialize form with contact data if editing
+
+  // Reset form when contact prop changes
   useEffect(() => {
     if (contact) {
-      setFormData({
-        ...contact,
-        // Ensure groups is an array
-        groups: contact.groups || [],
-      });
+      setFormData(contact);
     }
   }, [contact]);
 
-  // Handle input changes
-  const handleChange = (e) => {
+  const handleInput = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
-    
-    // Clear error when field is changed
+    }));
+    // Clear error when field is edited
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: '',
-      });
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  // Handle group selection
-  const handleGroupChange = (e) => {
-    const { value, checked } = e.target;
-    
-    setFormData({
-      ...formData,
-      groups: checked
-        ? [...formData.groups, value]
-        : formData.groups.filter(group => group !== value),
+  const handleGroupToggle = (group) => {
+    setFormData((prev) => {
+      const updatedGroups = prev.groups.includes(group)
+        ? prev.groups.filter((g) => g !== group)
+        : [...prev.groups, group];
+      return { ...prev, groups: updatedGroups };
     });
   };
 
-  // Validate form before submission
-  const validateForm = () => {
+  const validate = () => {
     const newErrors = {};
-    
-    // Name validation
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = "Name is required";
     }
-    
-    // Phone validation
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^\d{10,15}$/.test(formData.phone.replace(/[-()\s]/g, ''))) {
-      newErrors.phone = 'Enter a valid phone number';
+      newErrors.phone = "Phone is required";
     }
-    
-    // Email validation
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Enter a valid email address';
+      newErrors.email = "Invalid email format";
     }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!formData.image && !contact) {
+      newErrors.image = "Image URL is required";
+    }
+    if (formData.groups.length === 0) {
+      newErrors.groups = "Please select at least one group";
+    }
+    return newErrors;
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      onSubmit(formData);
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
+    onSubmit(formData);
   };
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <div className={classes.formGroup}>
-        <label htmlFor="name">Name</label>
+      <div className={classes.inputGroup}>
+        <label htmlFor="name" className={classes.label}>
+          Name
+        </label>
         <input
           type="text"
           id="name"
           name="name"
+          className={classes.input}
           value={formData.name}
-          onChange={handleChange}
-          className={errors.name ? classes.errorInput : ''}
+          onChange={handleInput}
         />
-        {errors.name && <div className={classes.errorMessage}>{errors.name}</div>}
+        {errors.name && <p className={classes.error}>{errors.name}</p>}
       </div>
-      
-      <div className={classes.formGroup}>
-        <label htmlFor="phone">Phone Number</label>
+
+      <div className={classes.inputGroup}>
+        <label htmlFor="phone" className={classes.label}>
+          Phone
+        </label>
         <input
           type="tel"
           id="phone"
           name="phone"
+          className={classes.input}
           value={formData.phone}
-          onChange={handleChange}
-          className={errors.phone ? classes.errorInput : ''}
+          onChange={handleInput}
         />
-        {errors.phone && <div className={classes.errorMessage}>{errors.phone}</div>}
+        {errors.phone && <p className={classes.error}>{errors.phone}</p>}
       </div>
-      
-      <div className={classes.formGroup}>
-        <label htmlFor="email">Email</label>
+
+      <div className={classes.inputGroup}>
+        <label htmlFor="email" className={classes.label}>
+          Email
+        </label>
         <input
           type="email"
           id="email"
           name="email"
+          className={classes.input}
           value={formData.email}
-          onChange={handleChange}
-          className={errors.email ? classes.errorInput : ''}
+          onChange={handleInput}
         />
-        {errors.email && <div className={classes.errorMessage}>{errors.email}</div>}
+        {errors.email && <p className={classes.error}>{errors.email}</p>}
       </div>
-      
-      <div className={classes.formGroup}>
-        <label>Groups</label>
-        <div className={classes.checkboxGroup}>
+
+      <div className={classes.inputGroup}>
+        <label htmlFor="image" className={classes.label}>
+          Image URL
+        </label>
+        <input
+          type="text"
+          id="image"
+          name="image"
+          className={classes.input}
+          value={formData.image}
+          onChange={handleInput}
+          placeholder="https://i.pravatar.cc/200?img=1"
+        />
+        <p className={classes.helper}>
+          Leave empty to use a random avatar from pravatar.cc
+        </p>
+        {errors.image && <p className={classes.error}>{errors.image}</p>}
+        {formData.image && (
+          <div className={classes.imagePreview}>
+            <img src={formData.image} alt="Preview" />
+          </div>
+        )}
+      </div>
+
+      <div className={classes.inputGroup}>
+        <label className={classes.label}>Groups</label>
+        <div className={classes.groupsContainer}>
           {groups.map((group) => (
-            <div key={group} className={classes.checkbox}>
+            <div key={group} className={classes.groupCheckbox}>
               <input
                 type="checkbox"
                 id={`group-${group}`}
-                name="groups"
-                value={group}
                 checked={formData.groups.includes(group)}
-                onChange={handleGroupChange}
+                onChange={() => handleGroupToggle(group)}
               />
               <label htmlFor={`group-${group}`}>{group}</label>
             </div>
           ))}
         </div>
+        {errors.groups && <p className={classes.error}>{errors.groups}</p>}
       </div>
-      
+
       <div className={classes.buttonGroup}>
-        <button type="button" className={classes.cancelButton} onClick={onCancel}>
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button type="submit" className={classes.submitButton}>
-          {contact ? 'Update Contact' : 'Add Contact'}
-        </button>
+        </Button>
+        <Button type="submit">{contact ? "Update" : "Add"} Contact</Button>
       </div>
     </form>
   );
-};
-
-ContactForm.propTypes = {
-  contact: PropTypes.object,
-  onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  groups: PropTypes.array.isRequired,
-};
-
-ContactForm.defaultProps = {
-  contact: null,
 };
 
 export default ContactForm;

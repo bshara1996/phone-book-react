@@ -1,16 +1,23 @@
-import classes from "../page.module.css";
-import ContactsList from "../../components/ContactsList/ContactsList";
+import ContactsList from "../../components/contactsList/ContactsList";
+import pageClasses from "../page.module.css";
+import classes from "./contacts.module.css";
 
 /**
  * Contacts page component
- * @returns {JSX.Element} - contacts page component
+ * @param {Object} props Component props
+ * @param {Object} props.user Current user data
+ * @returns {JSX.Element} Contacts page component
  */
 export default function Contacts({ user }) {
+  const isAdmin = user?.role === "admin";
+
   return (
-    <div className={classes.page}>
-      <h2>Contacts</h2>
+    <div className={pageClasses.page}>
       <main>
-        <ContactsList user={user} />
+        <div className={classes.pageHeader}>
+          <h2 className={classes.title}>All Contacts</h2>
+        </div>
+          <ContactsList isAdmin={isAdmin} />
       </main>
     </div>
   );

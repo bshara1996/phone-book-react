@@ -9,10 +9,10 @@ import pageClasses from "../page.module.css";
  * Home page component
  * @returns {JSX.Element} - home page component
  */
-export default function Home() {
+export default function Home({ user }) {
   const [welcomeText, setWelcomeText] = useState("");
-  const fullText = "Welcome to Phone Book";
-
+  const fullText = `Welcome to Phone Book, ${user.name}`;
+  
   useEffect(() => {
     let currentIndex = 0;
     const intervalId = setInterval(() => {

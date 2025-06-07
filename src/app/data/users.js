@@ -1,9 +1,11 @@
+// User accounts for login authentication
+// In a real application, passwords should be hashed and stored securely
 export const users = [
   {
     id: 1,
     username: "admin",
-    password: "123456", // In a real app, passwords should be hashed
-    name: "Admin User",
+    password: "123456",
+    name: "Admin",
     role: "admin",
   },
   {
@@ -16,21 +18,21 @@ export const users = [
   {
     id: 3,
     username: "bshara",
-    password: "opa123",
+    password: "bshara123",
     name: "Bshara",
     role: "user",
   },
   {
     id: 4,
     username: "moner",
-    password: "opa123",
+    password: "moner123",
     name: "Moner",
     role: "user",
   },
   {
     id: 5,
     username: "aliceWonder",
-    password: "wonderland",
+    password: "alice123",
     name: "Alice Wonder",
     role: "user",
   },

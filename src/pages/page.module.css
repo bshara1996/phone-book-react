@@ -1,18 +1,19 @@
 .page {
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
 .page main {
   flex: 1;
-  width: min(80%, 1000px);
+  width: min(100%, 1200px);
   margin: auto;
   text-align: left;
   padding: 2rem;
 }
 
 .page h2 {
-  text-align: center;
+  margin-top: 0;
 }
 
 .page a {

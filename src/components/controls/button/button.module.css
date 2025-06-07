@@ -1,67 +1,54 @@
+/* Base button styles */
 .button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 10px 20px;
+  padding: 0.7rem 1.2rem;
+  border: none;
   border-radius: 6px;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: none;
-  outline: none;
-  min-width: 120px;
+  white-space: nowrap;
+  min-height: 36px;
+  width: auto;
 }
 
-.button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Variants */
+/* Button variants */
 .primary {
-  background-color: #4a90e2;
+  background-color: #0077cc;
   color: white;
 }
 
-.primary:hover:not(:disabled) {
-  background-color: #3a7bc8;
+.primary:hover {
+  background-color: #0066b3;
 }
 
 .secondary {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ddd;
-}
-
-.secondary:hover:not(:disabled) {
-  background-color: #e6e6e6;
-}
-
-.danger {
-  background-color: #e74c3c;
+  background-color: #6c757d;
   color: white;
 }
 
-.danger:hover:not(:disabled) {
-  background-color: #c0392b;
+.secondary:hover {
+  background-color: #5a6268;
 }
 
-.text {
-  background-color: transparent;
-  color: #4a90e2;
-  padding: 6px 12px;
+.danger {
+  background-color: #dc3545;
+  color: white;
 }
 
-.text:hover:not(:disabled) {
-  background-color: rgba(74, 144, 226, 0.1);
+.danger:hover {
+  background-color: #c82333;
 }
 
 /* Responsive styles */
-@media (max-width: 576px) {
+@media (max-width: 640px) {
   .button {
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 1.3rem;
+    min-height: 36px;
+    width: 100%;
   }
 }
